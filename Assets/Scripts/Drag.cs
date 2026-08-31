@@ -7,7 +7,7 @@ public class Drag : MonoBehaviour
     private Collider2D collider;
     public LayerMask layerMask;
     [SerializeField] private bool isDragging = false;
-    private Touch touch;
+    private GameInput inputActions;
 
     public LineRenderer lineFront;
     public LineRenderer lineBack;
@@ -21,10 +21,14 @@ public class Drag : MonoBehaviour
     private Vector2 prevVel;
     private Rigidbody2D rigidbody;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Awake()
+    {
+        inputActions = new GameInput();
+    }
+
     void Start()
     {
-        collider = GetComponent<Collider2D>();  
+        collider = GetComponent<Collider2D>();
         circleCollider = GetComponent<CircleCollider2D>();
         leftCatapultRay = new Ray(lineFront.transform.position, Vector3.zero);
         springJoint = GetComponent<SpringJoint2D>();
@@ -33,16 +37,22 @@ public class Drag : MonoBehaviour
         lineFront.SetPosition(0, lineFront.transform.position);
         lineBack.SetPosition(0, lineBack.transform.position);
 
-        // Update the line renderer positions in the Update method
         lineFront.SetPosition(1, transform.position);
         lineBack.SetPosition(1, transform.position);
-
     }
 
-    // Update is called once per frame
+    private void OnEnable()
+    {
+        inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
     void Update()
     {
-        // Update the line renderer positions in the Update method
         catapultToBird = transform.position - lineFront.transform.position;
         leftCatapultRay.direction = catapultToBird;
 
@@ -54,28 +64,30 @@ public class Drag : MonoBehaviour
         SpringEffect();
         prevVel = rigidbody.linearVelocity;
 
-        if (Input.touchCount > 0)
+        Vector2 positionInput = inputActions.Gameplay.Point.ReadValue<Vector2>();
+
+        Vector2 wp = Camera.main.ScreenToWorldPoint(positionInput);
+
+        if (inputActions.Gameplay.Press.WasPressedThisFrame())
         {
-            touch = Input.GetTouch(0);
-            Vector2 wp = Camera.main.ScreenToWorldPoint(touch.position);
-            RaycastHit2D hit = Physics2D.Raycast(wp, Vector2.zero, Mathf.Infinity, layerMask);
+            Collider2D hit = Physics2D.OverlapPoint(wp, layerMask);
 
-            if(hit.collider != null)
+            if (hit != null)
             {
-                if (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
-                {
-                    Vector3 tPos = Camera.main.ScreenToWorldPoint(touch.position);
-                    transform.position = tPos;
-                    isDragging = true;
-
-                }
-
-                if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
-                {
-                    isDragging = false;
-                }
-                Debug.Log("Touching " + hit.collider.name);
+                isDragging = true;
             }
+        }
+
+        if (isDragging &&
+            inputActions.Gameplay.Press.IsPressed())
+        {
+            transform.position = wp;
+        }
+
+        if (inputActions.Gameplay.Press.WasReleasedThisFrame())
+        {
+            isDragging = false;
+            rigidbody.bodyType = RigidbodyType2D.Dynamic;
         }
     }
 
@@ -85,11 +97,14 @@ public class Drag : MonoBehaviour
         {
             if (rigidbody.bodyType != RigidbodyType2D.Kinematic)
             {
-                if (prevVel.sqrMagnitude > rigidbody.linearVelocity.sqrMagnitude)
+                if (prevVel.sqrMagnitude >
+                    rigidbody.linearVelocity.sqrMagnitude)
                 {
                     lineFront.enabled = false;
                     lineBack.enabled = false;
+
                     Destroy(springJoint);
+
                     rigidbody.linearVelocity = prevVel;
                 }
             }
