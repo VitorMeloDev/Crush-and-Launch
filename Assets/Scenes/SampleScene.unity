@@ -225,7 +225,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 17.38
+  orthographic size: 7.43
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -250,7 +250,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -2.33, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -434,6 +434,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2079974429225652537, guid: ea9be10410dd0724ba1c943240c1747e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 898567074}
+    - targetCorrespondingSourceObject: {fileID: 2079974429225652537, guid: ea9be10410dd0724ba1c943240c1747e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 898567075}
   m_SourcePrefab: {fileID: 100100000, guid: ea9be10410dd0724ba1c943240c1747e, type: 3}
 --- !u!4 &898567070 stripped
 Transform:
@@ -582,6 +585,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &898567075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898567071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c680e04f8ab32c846bd150892aeac0dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectDragCatapult
+  lineFront: {fileID: 1374013791}
+  lineBack: {fileID: 898567072}
+  dragObject: {fileID: 905867252}
+  catapultToBird: {x: 0, y: 0}
+  pointL: {x: 0, y: 0, z: 0}
 --- !u!1001 &905867243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -604,11 +624,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2747053678212656102, guid: ed88e5b78f1dfb244832f11134f64f2b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.26
+      value: -8.97
       objectReference: {fileID: 0}
     - target: {fileID: 2747053678212656102, guid: ed88e5b78f1dfb244832f11134f64f2b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.07
+      value: -0.55
       objectReference: {fileID: 0}
     - target: {fileID: 2747053678212656102, guid: ed88e5b78f1dfb244832f11134f64f2b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -696,6 +716,17 @@ SpringJoint2D:
   m_Distance: 1
   m_DampingRatio: 0
   m_Frequency: 3
+--- !u!114 &905867252 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6254760736459222734, guid: ed88e5b78f1dfb244832f11134f64f2b, type: 3}
+  m_PrefabInstance: {fileID: 905867243}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905867244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45a5030856056004d87a185ac7ee51de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drag
 --- !u!1001 &1374013788
 PrefabInstance:
   m_ObjectHideFlags: 0
