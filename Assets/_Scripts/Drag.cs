@@ -1,9 +1,12 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Drag : MonoBehaviour
 {
+    [Header("Bird")]
+    public GameObject birdDeathEffect;
     [Header("Drag")]
     public LayerMask layerMask;
     [SerializeField] private bool isDragging = false;
@@ -17,6 +20,10 @@ public class Drag : MonoBehaviour
     private Vector2 prevVel;
     private Rigidbody2D rigidbody;
 
+    private Transform catapult;
+    private Ray rayToMT;
+    private Vector2 catapultToBird;
+
     private void Awake()
     {
         inputActions = new GameInput();
@@ -28,6 +35,9 @@ public class Drag : MonoBehaviour
         springJoint = GetComponent<SpringJoint2D>();
         rigidbody = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main;
+
+        catapult = springJoint.connectedBody.transform;
+        rayToMT = new Ray(catapult.position, Vector3.zero);
     }
 
     private void OnEnable()
@@ -71,12 +81,21 @@ public class Drag : MonoBehaviour
 
         if (isDragging && inputActions.Gameplay.Press.IsPressed())
         {
+            catapultToBird = wp - (Vector2)catapult.position;
+
+            if (catapultToBird.sqrMagnitude > 9f)
+            {
+                rayToMT.direction = catapultToBird;
+                wp = rayToMT.GetPoint(3f);
+            }
+
             transform.position = wp;
         }
 
         if (isDragging && inputActions.Gameplay.Press.WasReleasedThisFrame())
         {
             isDragging = false;
+            OnStopMove();
             OnDragEnd?.Invoke();
             rigidbody.bodyType = RigidbodyType2D.Dynamic;
         }
@@ -101,5 +120,20 @@ public class Drag : MonoBehaviour
     public bool IsDragging()
     {
         return isDragging;
+    }
+
+    void OnStopMove()
+    {
+        if (rigidbody.linearVelocity.magnitude < 0f && rigidbody.IsSleeping())
+        {
+            StartCoroutine(StopMove());
+        }
+    }
+
+    IEnumerator StopMove()
+    {
+        yield return new WaitForSeconds(3f);
+        Instantiate(birdDeathEffect, transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
     }
 }
