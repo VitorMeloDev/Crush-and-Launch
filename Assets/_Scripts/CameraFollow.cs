@@ -8,6 +8,8 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (target == null)
+            return;
         posCamera = transform.position;
         posCamera.x = target.position.x;
         posCamera.x = Mathf.Clamp(posCamera.x, limitLeft.position.x, limitRight.position.x);

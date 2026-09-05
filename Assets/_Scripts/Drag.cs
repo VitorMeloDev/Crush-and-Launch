@@ -124,7 +124,7 @@ public class Drag : MonoBehaviour
 
     void OnStopMove()
     {
-        if (rigidbody.linearVelocity.magnitude < 0f && rigidbody.IsSleeping())
+        if (rigidbody.linearVelocity.sqrMagnitude < 0.0025f || rigidbody.IsSleeping())
         {
             StartCoroutine(StopMove());
         }
