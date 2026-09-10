@@ -217,11 +217,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ExplosionSprite_0
+      rect:
+        serializedVersion: 2
+        x: 1784
+        y: 323
+        width: 255
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c555c0ba03cecb042adfc65b5aa57651
+      internalID: 372028243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 44880e806269e904eb5c20dc4840d100
     internalID: 0
     vertices: []
     indices: 
@@ -231,6 +253,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      ExplosionSprite_0: 372028243
       Explosion_0: 5986030973748356752
       Explosion_1: -5600206312213581617
       Explosion_2: 3815954189206336483
