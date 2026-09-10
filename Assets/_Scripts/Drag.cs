@@ -7,6 +7,7 @@ public class Drag : MonoBehaviour
 {
     [Header("Bird")]
     public GameObject birdDeathEffect;
+    public TrailRenderer trailEffect;
     [Header("Drag")]
     public LayerMask layerMask;
     [SerializeField] private bool isDragging = false;
@@ -34,6 +35,8 @@ public class Drag : MonoBehaviour
         collider = GetComponent<Collider2D>();
         springJoint = GetComponent<SpringJoint2D>();
         rigidbody = GetComponent<Rigidbody2D>();
+        trailEffect = GetComponentInChildren<TrailRenderer>();
+        trailEffect.emitting = false;
         mainCamera = Camera.main;
 
         catapult = springJoint.connectedBody.transform;
@@ -111,8 +114,8 @@ public class Drag : MonoBehaviour
                 rigidbody.linearVelocity.sqrMagnitude)
             {
                 Destroy(springJoint);
-
                 rigidbody.linearVelocity = prevVel;
+                trailEffect.emitting = true;
             }
         }
     }
