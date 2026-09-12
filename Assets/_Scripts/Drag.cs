@@ -66,6 +66,9 @@ public class Drag : MonoBehaviour
 
     void Dragging()
     {
+        if (springJoint == null)
+            return;
+        
         prevVel = rigidbody.linearVelocity;
 
         Vector2 positionInput = inputActions.Gameplay.Point.ReadValue<Vector2>();

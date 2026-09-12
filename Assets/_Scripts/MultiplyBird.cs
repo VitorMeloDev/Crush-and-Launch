@@ -19,7 +19,7 @@ public class MultiplyBird : MonoBehaviour
 
     void OnEnable()
     {
-        dragObject.OnDragEnd = OnDragBirdEnd;
+        dragObject.OnDragEnd += OnDragBirdEnd;
         inputActions.Enable();
     }
 
@@ -34,7 +34,6 @@ public class MultiplyBird : MonoBehaviour
         if (inputActions.Gameplay.Press.WasPressedThisFrame() && activateMultiplyBird)
         {
             activateMultiplyBird = false;
-            print("SALVE");
             Vector3 pos = transform.position;
             bird_one = Instantiate(birdPrefab, new Vector3(pos.x, pos.y + 1f), Quaternion.identity);
             bird_two = Instantiate(birdPrefab, new Vector3(pos.x, pos.y - 1f), Quaternion.identity);

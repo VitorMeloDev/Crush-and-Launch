@@ -15,7 +15,7 @@ public class ExplosiveBird : MonoBehaviour
 
     void OnEnable()
     {
-        dragObject.OnDragEnd = OnDragBirdEnd;
+        dragObject.OnDragEnd += OnDragBirdEnd;
         inputActions.Enable();
     }
 
@@ -30,7 +30,6 @@ public class ExplosiveBird : MonoBehaviour
         {
             activeExplosiveBird = false;
             Instantiate(bombObj, transform.position, Quaternion.identity);
-            print("Olá");
             Destroy(gameObject);
         }
     }

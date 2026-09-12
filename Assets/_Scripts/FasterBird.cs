@@ -20,7 +20,7 @@ public class FasterBird : MonoBehaviour
 
     void OnEnable()
     {
-        dragObject.OnDragEnd = OnDragBirdEnd;
+        dragObject.OnDragEnd += OnDragBirdEnd;
         inputActions.Enable();
     }
 
@@ -34,7 +34,6 @@ public class FasterBird : MonoBehaviour
         if (inputActions.Gameplay.Press.WasPressedThisFrame() && activeFasterBird)
         {
             activeFasterBird = false;
-            print("Olá");
             rigidbody.linearVelocity = rigidbody.linearVelocity * 1.5f;
         }
     }
